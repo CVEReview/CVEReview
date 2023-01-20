@@ -1,0 +1,65 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+b {
+    margin-top: 0;
+    margin-bottom: .5rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #fff;
+}
+
+html,
+body {
+    background-color: #17181a;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Inter', sans-serif;
+
+}
+
+.form-control,
+.form-control:active,
+.form-control:focus {
+    color: #fff;
+    background-color: #25282a;
+    background-clip: padding-box;
+    border: .0625rem solid #2f3235;
+    box-shadow: none;
+}
+
+::selection {
+    color: #377dff;
+    background-color: rgba(55, 125, 255, .1);
+}
+
+.searchBtn {
+    background-color: rgba(205, 16, 77, 0.8);
+    border-radius: 0rem 2rem 2rem 0rem;
+    border: 0rem;
+}
+
+.searchBtn:hover, .btn-check:checked+.btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check)+.btn:active {
+    background-color: rgba(205, 16, 77, 0.8);
+    border-radius: 0rem 2rem 2rem 0rem;
+    border: 0rem;
+}
+
+.searchField {
+    border-radius: 2rem 0rem 0rem 2rem;
+}
+
+.form-control.is-invalid, .was-validated .form-control:invalid {
+    border: 0 !important;
+    box-shadow: 0 0 0 0 !important;
+}
+
+.form-control.is-valid, .was-validated .form-control:valid {
+    border: 0 !important;
+    box-shadow: 0 0 0 0 !important;
+}

@@ -1,0 +1,144 @@
+.navbar {
+    background-color: #000 !important;
+}
+
+.nav {
+    border: 0px;
+}
+
+.content {
+    padding-top: 80px;
+}
+
+tr>td:first-of-type {
+    font-weight: bold;
+    color: #fff;
+}
+
+tr>td:last-of-type {
+    font-weight: bold;
+    text-align: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+b {
+    margin-top: 0;
+    margin-bottom: .5rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #fff;
+}
+
+.table {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #c5c8cc;
+    font-family: 'Inter', sans-serif;
+}
+
+td {
+    border: 0;
+    padding-right: 10px;
+}
+
+html,
+body {
+    background-color: #17181a;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Inter', sans-serif;
+
+}
+
+p,
+span {
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    overflow-wrap: break-word;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.7);
+    background-color: #27282a;
+}
+
+.nav-icon {
+    padding-right: .75rem;
+}
+
+#cvssGraph-tab {
+    background-color: #27282a;
+    border: 0;
+}
+
+#cvssTab>.nav-link {
+    padding-left: 0;
+}
+
+#cvssGraph-tab {
+    padding-left: 0px;
+}
+
+#sidebarTab>.nav-item:hover {
+    background-color: #17181a;
+}
+
+#cvssText-tab {
+    border: 0;
+}
+
+
+#cvssTabs.nav-item {
+    background-color: #27282a;
+
+}
+
+.card {
+    background-color: #27282a;
+    box-shadow: 0 .375rem .75rem rgba(30, 32, 34, .2);
+    background-clip: border-box;
+    border: 1px solid rgb(47, 50, 53);
+    border-radius: 12px;
+    box-sizing: border-box;
+}
+
+.card-header {
+    color: #fff;
+    border-bottom: 1px solid #2f3235;
+}
+
+.form-control,
+.form-control:active,
+.form-control:focus {
+    color: #fff;
+    background-color: #25282a;
+    background-clip: padding-box;
+    border: .0625rem solid #2f3235;
+}
+
+::selection {
+    color: #377dff;
+    background-color: rgba(55, 125, 255, .1);
+}
+
+a {
+    text-decoration: none;
+}
+
+.reference:hover {
+    background-color: #2f3235;
+    transition: 0.2s;
+}

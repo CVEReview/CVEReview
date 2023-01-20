@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CVEReview</title>
+
+
+    <meta name="description" content="Crowdsourced CVE reviews and detailed information | CVEReview">
+    <meta name="robots" content="index, follow">
+
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./assets/css/cve.css">
+
+</head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E5CND416GZ"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-E5CND416GZ');
+</script>
+
+
+<body>
+    <header>
+        <nav class="navbar fixed-top py-1 p-3">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand" href="/" aria-label="Hey">
+                    <img class="navbar-brand-logo" src="./assets/img/logo/logo.svg" width="160px" alt="Logo" />
+                </a>
+                <!-- End Logo -->
+                <div class="d-flex">
+                    <i class="bi-bell" style="color: red"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid px-3 content">
+        <div class="row">
+            <div class="col-lg-2 h-100 mb-3">
+                <div class="card">
+
+                    <div class="card-header">
+                        <h5>Menu</h5>
+                    </div>
+
+                    <div class="navbar-vertical">
+                        <!-- Content -->
+                        <div class="navbar-vertical-content">
+                            <div class="nav flex-column" id="sidebarTab">
+                                <div class="nav-item">
+                                    <a class="nav-link" href="#descriptionNav">
+                                        <span><i class="bi bi-justify-left nav-icon"></i>Description</span>
+                                    </a>
+                                </div>
+
+                                <div class="nav-item">
+                                    <a class="nav-link" href="#scoreNav">
+                                        <span><i class="bi bi-graph-up nav-icon"></i>Score</span>
+                                    </a>
+                                </div>
+                                <div class="nav-item">
+                                    <a class="nav-link" href="#referencesNav">
+                                        <span><i class="bi bi-link-45deg nav-icon"></i>References</span>
+                                    </a>
+                                </div>
+                                <div class="nav-item">
+                                    <a class="nav-link" href="#commentsNav">
+                                        <span><i class="bi bi-chat-dots nav-icon"></i>Comments</span>
+                                    </a>
+                                </div>
+                                <div class="nav-item">
+                                    <a class="nav-link" href="#subscribeNav">
+                                        <span><i class="bi bi-bell nav-icon"></i>Subscribe</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- End Collapse -->
+                        </div>
+                        <br>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="col-lg-10 mb-3" id="descriptionNav">
+                <div class="row justify-content-evenly">
+                    <div class="col-lg-9 mb-3">
+                        <div class="card h-100">
+
+                            <div class="card-header">
+                                <h5 id="pageTitle"></h5>
+                            </div>
+
+                            <div class="card-body d-flex">
+                                <!-- Title -->
+                                <div class="text-center align-self-center">
+                                    <p id="description"></p>
+                                </div>
+                                <!-- End Title -->
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-3 mb-3">
+                        <div class="card h-100">
+
+                            <div class="card-header">
+                                <h5>Details</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>
+                                    <b>Source:</b><br>
+                                    <span id="source"></span><br><br>
+                                    <b>Published:</b><br>
+                                    <span id="published"></span><br><br>
+                                    <b>Last Modified:</b><br>
+                                    <span id="lastModified"></span><br>
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-lg-6 mr-3 mb-3" id="scoreNav">
+                        <div class="card h-100">
+                            <h5 class="card-header container-fluid" id="cvssTab" role="tablist">
+
+                                <ul class="nav nav-tabs justify-content-between" id="cvssTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link active" style="text-decoration: none; color: #fff"
+                                            id="cvssGraph-tab" data-bs-toggle="tab" data-bs-target="#cvssGraph"
+                                            type="button" role="tab" aria-controls="cvssGraph"
+                                            aria-selected="false">CVSS</a>
+                                    </li>
+                                    <li class="nav-item d-flex" role="presentation">
+                                        <a class="nav-link" id="cvssText-tab" data-bs-toggle="tab"
+                                            data-bs-target="#cvssText" type="button" role="tab" aria-controls="cvssText"
+                                            aria-selected="false"><span><i
+                                                    class="bi bi-file-earmark-text"></i></span></a>
+                                    </li>
+                                </ul>
+                            </h5>
+
+
+                            <div class="card-body align-self-center">
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="cvssGraph" role="tabpanel"
+                                        aria-labelledby="cvssGraph-tab">
+                                        <!-- Chart -->
+                                        <div class="chartjs-custom" width="100%" height="100%">
+                                            <canvas id="cvssChart"></canvas>
+                                        </div>
+                                        <!-- End Chart -->
+                                    </div>
+
+                                    <div class="tab-pane fade" id="cvssText" role="tabpanel"
+                                        aria-labelledby="cvssText-tab">
+                                        <table class="table" id="cvssTable">
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer">
+                                <span class="text-primary" id="cvssVector"></span>
+                                <span class="text-primary float-end" id="cvssScore"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6 mr-3 mb-3">
+                        <div class="card h-100">
+                            <h5 class="card-header">
+                                <ul class="nav nav-tabs justify-content-between">
+                                    <li class="nav-item">
+                                        <a class="nav-link " style="text-decoration: none; color: #fff; background-color: #27282a;
+                                        border: 0;padding-left: 0px;">EPSS</a>
+                                    </li>
+
+                                </ul>
+                            </h5>
+                            <div class="card-body align-self-center">
+                                <div>
+                                    <!-- Chart -->
+                                    <div class="chartjs-custom" width="100%" height="100%">
+                                        <canvas id="epssChart"></canvas>
+                                    </div>
+                                    <!-- End Chart -->
+                                </div>
+
+                            </div>
+                            <div class="card-footer">
+                                <span class="text-primary" title="EPSS" id="epssScore"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-12 mr-3 mb-3" id="referencesNav">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>References</h5>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3" id="references">
+                                    <div class="col mb-1">
+                                        <a href="" target="_blank">
+                                            <div class="card h-100 reference">
+                                                <div class="card-body">
+                                                    <div>
+                                                        <h6 class="card-title "><span><i
+                                                                    class="bi bi-box-arrow-up-right float-end"></i></span>
+                                                        </h6>
+                                                    </div>
+                                                    <span></span>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <span
+                                                        class="badge bg-opacity-10 bg-primary text-primary border border-primary border-opacity-10"></span>
+                                                    <span
+                                                        class="badge bg-opacity-10 bg-primary text-primary border border-primary border-opacity-10"></span>
+                                                    <span
+                                                        class="badge bg-opacity-10 bg-primary text-primary border border-primary border-opacity-10"></span>
+                                                    <span
+                                                        class="badge bg-opacity-10 bg-warning text-warning border border-warning border-opacity-10"></span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col mb-1">
+                                        <a href="" target="_blank">
+                                            <div class="card h-100 reference">
+                                                <div class="card-body">
+                                                    <div>
+                                                        <h6 class="card-title "><span><i
+                                                                    class="bi bi-box-arrow-up-right float-end"></i></span>
+                                                        </h6>
+                                                    </div>
+                                                    <span></span>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <span
+                                                        class="badge bg-opacity-10 bg-primary text-primary border border-primary border-opacity-10"></span>
+                                                    <span
+                                                        class="badge bg-opacity-10 bg-primary text-primary border border-primary border-opacity-10"></span>
+                                                    <span
+                                                        class="badge bg-opacity-10 bg-primary text-primary border border-primary border-opacity-10"></span>
+                                                    <span
+                                                        class="badge bg-opacity-10 bg-warning text-warning border border-warning border-opacity-10"></span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="col mb-1">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <div>
+                                                    <h6 class="card-title"></h6>
+                                                </div>
+                                                <span></span>
+                                            </div>
+                                            <div class="card-footer">
+                                                <span
+                                                    class="badge bg-opacity-10 bg-danger text-danger border border-danger border-opacity-10"></span>
+                                                <span
+                                                    class="badge bg-opacity-10 bg-warning text-warning border border-warning border-opacity-10"></span>
+                                                <span
+                                                    class="badge bg-opacity-10 bg-danger text-danger border border-danger border-opacity-10"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 mb-3" id="commentsNav">
+                        <!-- Card -->
+                        <div class="card h-100">
+                            <h5 class="card-header">Comments</h5>
+                            <div class="card-body" id="commentsUtterances">
+                            </div>
+                        </div>
+                        <!-- End Card -->
+                    </div>
+
+                    <div class="col-lg-12 mb-3" id="subscribeNav">
+                        <!-- Card -->
+                        <div class="card h-100">
+                            <h5 class="card-header">Subscribe</h5>
+                            <div class="card-body col-lg-6 col-md-9 col-xs-12 align-self-center">
+                                <!-- Title -->
+                                <p class="text-center">Enter your email to be notified about the latest critical CVEs
+                                    and updates!</p>
+
+                                <div class="input-group mb-3">
+                                    <input class="form-control" type="text" placeholder="email@email.com">
+                                    <button type="button" class="btn btn-primary">Subscribe</button>
+                                </div>
+                                <!-- End Title -->
+                            </div>
+                        </div>
+                        <!-- End Card -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+
+    <script src="./assets/js/cweList.js"></script>
+    <script src="./assets/js/cveParser.js"></script>
+
+    <script repo="CVEReview/CVEReview" issue-term="pathname" theme="github-dark" crossorigin="anonymous">
+        (() => {
+            const e = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'github-dark' : 'github-light',
+                t = new URL(location.href),
+                n = t.searchParams.get('utterances');
+            n &&
+                (localStorage.setItem('utterances-session', n),
+                    t.searchParams.delete('utterances'),
+                    history.replaceState(void 0, document.title, t.href));
+            let r = document.currentScript;
+            void 0 === r &&
+                (r = document.querySelector(
+                    'script[src^="https://utteranc.es/client.js"],script[src^="/client.js"]'
+                ));
+            const i = {};
+            for (let e = 0; e < r.attributes.length; e++) {
+                const t = r.attributes.item(e);
+                i[t.name.replace(/^data-/, '')] = t.value;
+            }
+            'preferred-color-scheme' === i.theme && (i.theme = e);
+            const a = document.querySelector("link[rel='canonical']");
+            (i.url = a ? a.href : t.origin + t.pathname + t.search),
+                (i.origin = t.origin),
+                (i.pathname = t.pathname.length < 2 ? 'index' : t.pathname.substr(1).replace(/\.\w+$/, '')),
+                (i.title = document.title);
+            const s = document.querySelector("meta[name='description']");
+            i.description = s ? s.content : '';
+            const o = encodeURIComponent(i.description).length;
+            o > 1e3 && (i.description = i.description.substr(0, Math.floor((1e3 * i.description.length) / o)));
+            const c = document.querySelector("meta[property='og:title'],meta[name='og:title']");
+            (i['og:title'] = c ? c.content : ''),
+                (i.session = n || localStorage.getItem('utterances-session') || ''),
+                document.head.insertAdjacentHTML(
+                    'afterbegin',
+                    '<style>\n    .utterances {\n      position: relative;\n      box-sizing: border-box;\n      width: 100%;\n      max-width: 760px;\n      margin-left: auto;\n      margin-right: auto;\n    }\n    .utterances-frame {\n      color-scheme: light;\n      position: absolute;\n      left: 0;\n      right: 0;\n      width: 1px;\n      min-width: 100%;\n      max-width: 100%;\n      height: 100%;\n      border: 0;\n    }\n  </style>'
+                );
+            const l = "https://utteranc.es",
+                h = `${l}/utterances.html`;
+            r = window.document.getElementById("commentsUtterances");
+            window.document.getElementById("commentsUtterances").insertAdjacentHTML(
+                'afterend',
+                `<div class="utterances">\n    <iframe class="utterances-frame" title="Comments" scrolling="no" src="${h}?${new URLSearchParams(
+                    i
+                )}" loading="lazy"></iframe>\n  </div>`
+            );
+            const m = r.nextElementSibling;
+            r.parentElement.removeChild(r),
+                addEventListener('message', (e) => {
+                    if (e.origin !== l) return;
+                    const t = e.data;
+                    t && 'resize' === t.type && t.height && (m.style.height = `${t.height}px`);
+                });
+        })();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            cvssChartJs = new Chart(document.querySelector('#cvssChart'), {
+                type: 'radar',
+                data: {
+                    labels: ['Confidentiality', 'Availability', 'Integrity'],
+                    datasets: [
+                        {
+                            data: [0, 0, 0],
+                            labels: ['Confidentiality', 'Availability', 'Integrity'],
+                            backgroundColor: ['rgba(205, 16, 77, 0.8)'],
+                            borderWidth: 0,
+                            borderColor: '#fff',
+                        },
+                    ],
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    aspectRatio: 1,
+                    maintainAspectRatio: true,
+                    responsive: false,
+                    scales: {
+                        r: {
+                            pointLabels: {
+                                color: '#c5c8cc',
+                                font: {
+                                    size: '12',
+                                    family: 'Inter, sans-serif',
+                                    weight: '400',
+                                },
+                            },
+                            ticks: {
+                                display: false,
+                            },
+                            angleLines: {
+                                color: '#fff',
+                            },
+                            grid: {
+                                color: 'rgba(113, 134, 157, 0.25)',
+                                lineWidth: 3,
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 10,
+                            beginAtZero: true,
+                            stepSize: 1,
+                        },
+                    },
+                },
+            });
+
+
+            epssChartJs = new Chart(document.querySelector('#epssChart'), {
+                type: 'bubble',
+                data: {
+                    datasets: [
+                        {
+                            label: 'CVSS-2022-1337',
+                            data: [
+                                {
+                                    x: 0,
+                                    y: 90,
+                                    r: 0,
+                                },
+                            ],
+                            backgroundColor: 'rgba(205, 16, 77, 0.8)',
+                        },
+                    ],
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    layout: {
+                        padding: {
+                            top: 50,
+                        }
+                    },
+                    aspectRatio: 1.25,
+                    maintainAspectRatio: true,
+                    responsive: false,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            title: {
+                                display: true,
+                                text: 'CVSS Score',
+                                color: '#c5c8cc',
+                                font: {
+                                    size: '12',
+                                    family: 'Inter, sans-serif',
+                                    weight: '400',
+                                },
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 10,
+                            beginAtZero: true,
+                            stepSize: 1,
+                            grid: {
+                                color: 'rgba(113, 134, 157, 0.25)',
+                                lineWidth: 1,
+                            },
+                        },
+                        y: {
+                            type: 'linear',
+                            position: 'bottom',
+                            title: {
+                                display: true,
+                                text: 'EPSS Score',
+                                color: '#c5c8cc',
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            beginAtZero: true,
+                            stepSize: 1,
+                            grid: {
+                                color: 'rgba(113, 134, 157, 0.25)',
+                                lineWidth: 1,
+                            },
+                        },
+                    },
+                },
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crowdsourced CVE reviews and detailed information | CVEReview</title>
+
+    <meta name="description" content="Crowdsourced CVE reviews and detailed information | CVEReview">
+    <meta name="robots" content="index, follow">
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./assets/css/index.css">
+
+</head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E5CND416GZ"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-E5CND416GZ');
+</script>
+
+<body>
+
+    <div class="container-fluid d-flex justify-content-center vh-100">
+
+        <div class="row align-self-center" style="padding-bottom: 120px;">
+            <div class="text-center">
+                <img src="./assets/img/logo/logo.svg" alt="CVEReview">
+            </div>
+            <form id="cveForm">
+                <div class="input-group">
+                    <input class="form-control searchField" type="text" placeholder="CVE-2022-1337" id="search"
+                        autofocus>
+                    <button type="button" class="btn btn-primary px-3 py-2 searchBtn"><i
+                            class="bi bi-search"></i></button>
+                </div>
+                <div id="cveFeedback" class="invalid-feedback"></div>
+            </form>
+        </div>
+
+        <nav class="navbar fixed-bottom text-center">
+            <div class="container justify-content-center">
+                <div>
+                    CVEReview © 2022
+                    <p>
+                        <small>
+                            CVE and CWE are registered trademarks of The MITRE Corporations. <br>
+                            EPSS is owned and maintaned by Forum of Incident Response and Security Teams. <br>
+                            This product uses the NVD API but is not endorsed or certified by the NVD.
+                        </small>
+                    </p>
+                </div>
+            </div>
+        </nav>
+
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+
+    <script>
+        function isValidCVENumber(cve) {
+            cve = cve.toUpperCase();
+
+            if (!cve || cve.length === 0) {
+                return false;
+            }
+
+            if (!cve.startsWith("CVE-")) {
+                return false;
+            }
+
+            const cveRegex = /^CVE-[0-9]{4}-[0-9]{4,7}$/;
+            if (!cveRegex.test(cve)) {
+                return false;
+            }
+
+            return true;
+        }
+
+        const cveInput = document.getElementById("search");
+        const cveFeedback = document.getElementById("cveFeedback");
+        const cveForm = document.getElementById("cveForm");
+
+        cveInput.addEventListener("input", function () {
+            if (isValidCVENumber(this.value)) {
+                this.classList.remove("is-invalid");
+                this.classList.add("is-valid");
+
+            } else {
+                this.classList.remove("is-valid");
+                this.classList.add("is-invalid");
+            }
+        });
+
+        const form = document.getElementById("cveForm");
+
+        document.getElementsByClassName("searchBtn")[0].addEventListener("click", function () {
+            if (isValidCVENumber(cveInput.value)) {
+                window.location.href = cveInput.value.toUpperCase();
+            }
+            event.preventDefault();
+        });
+
+        form.addEventListener("submit", function () {
+            if (isValidCVENumber(cveInput.value)) {
+                window.location.href = cveInput.value.toUpperCase();
+            }
+            event.preventDefault();
+        });
+    </script>
+
+</body>
+
+</html>
