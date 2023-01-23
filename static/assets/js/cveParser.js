@@ -262,8 +262,44 @@ function populateCvssTextTable(data) {
     }
 }
 
+function getNextPrevCVE(currentCVE, direction) {
+    var regex = /^(?<prefix>CVE-)(?<year>\d{4})-(?<number>\d+)$/;
+    var match = currentCVE.match(regex);
+    if (!match) {
+        console.log("Invalid format for current CVE ID. Please use the format 'CVE-YYYY-NNNN'.")
+        return;
+    }
 
+    var prefix = match.groups.prefix;
+    var year = parseInt(match.groups.year);
+    var number = parseInt(match.groups.number);
+    var numberLength = match.groups.number.length;
 
+    // Check the direction of the calculation
+    if (direction === "next") {
+        number++;
+    } else if (direction === "prev") {
+        number--;
+    } else {
+        console.log("Invalid direction input. Please use 'next' or 'prev'.")
+        return;
+    }
+
+    // Check if the number overflows or underflows
+    if (number < 0) {
+        year--;
+        number = Math.pow(10, numberLength) - 1;
+    } else if (number >= Math.pow(10, numberLength)) {
+        year++;
+        number = 0;
+    }
+
+    // Reassemble the prefix, year, and number into the new CVE ID
+    var nextPrevCVE = prefix + year.toString() + "-" + number.toString().padStart(numberLength, "0");
+
+    return nextPrevCVE;
+}
+            
 
 
 function updateCvssChartJS() {

@@ -332,6 +332,23 @@
                         <!-- End Card -->
                     </div>
 
+                    <div class="col-lg-12 mr-3 mb-3" id="otherCVEs">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Other CVEs</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row justify-content-evenly">
+                                    <div class="col">
+                                      <a href="" id="prev">CVE-YYYY-NNNN</a>
+                                    </div>
+                                    <div class="col" style="text-align:right">
+                                        <a href="" id="next">CVE-YYYY-NNNN</a>
+                                    </div>
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -530,6 +547,20 @@
                     },
                 },
             });
+
+
+            var nextCVE = getNextPrevCVE(window.location.pathname.split('/')[1], "next"); 
+            var prevCVE = getNextPrevCVE(window.location.pathname.split('/')[1], "prev");
+
+            var prevHref = document.getElementById("prev");
+            var nextHref = document.getElementById("next");
+            
+            prevHref.href = prevCVE;
+            prevHref.textContent = prevCVE;
+
+            nextHref.href = nextCVE;
+            nextHref.textContent = nextCVE;
+            
         });
     </script>
 
