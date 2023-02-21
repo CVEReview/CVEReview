@@ -1,5 +1,5 @@
-var cvssResponse, epssResponse;
-var metrics, latestMetric, metricData, cvssData, cvssVersion, cvssPrintable, cvssVector, cvssScore, references, exploitAvailable = false, source, id, published, lastModified, description, cwe;
+var CVEData, epssResponse;
+var metrics, latestMetric, metricData, cvssData, cvssVersion, cvssData, cvssVector, cvssScore, references, exploitAvailable = false, source, id, published, lastModified, description, cwe;
 
 var cve = window.location.pathname.split('/')[1];
 
@@ -7,7 +7,7 @@ var cve = window.location.pathname.split('/')[1];
 
 async function getApiResponse() {
     try {
-        const response = await fetch('https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=' + cve);
+        const response = await fetch('/api/' + cve);
         if (!response.ok) {
             throw new Error('API returned an unsuccessful response');
         }
@@ -21,38 +21,34 @@ async function getApiResponse() {
 
 getApiResponse().then(data => {
     // the `data` variable contains the response from the API
-    cvssResponse = data;
+    CVEData = data;
 
-    if (cvssResponse["format"] == "NVD_CVE" && cvssResponse["version"].startsWith(2) && cvssResponse["vulnerabilities"].length > 0) {
-        metrics = cvssResponse["vulnerabilities"][0]["cve"]["metrics"];
+    if (true) {
+        try {
+            cvssData = CVEData["impact"]["baseMetricV3"]["cvssV3"]
+        } catch {
+            cvssData = CVEData["impact"]["baseMetricV2"]["cvssV2"]
+        }
 
-        latestMetric = Object.keys(metrics)[0];
+        cvssVersion = cvssData["version"]
 
-        metricData = metrics[latestMetric][0];
+        cvssScore = cvssData["baseScore"];
+        cvssVector = cvssData["vectorString"];
 
-        cvssData = metricData["cvssData"];
-
-        cvssVersion = cvssData["version"];
-
-        cvssPrintable = cvssData;
-
-        cvssScore = cvssPrintable["baseScore"];
-        cvssVector = cvssPrintable["vectorString"];
-
-        delete cvssPrintable["version"];
-        delete cvssPrintable["vectorString"];
-        delete cvssPrintable["baseScore"];
-        delete cvssPrintable["baseSeverity"];
+        delete cvssData["version"];
+        delete cvssData["vectorString"];
+        delete cvssData["baseScore"];
+        delete cvssData["baseSeverity"];
 
 
         if (cvssVersion.startsWith(2)) {
             cvssVector = "CVSS:" + cvssVersion + "/" + cvssVector;
-            cvssPrintable = convertCvssToList(cvssVector, 2);
+            cvssData = convertCvssToList(cvssVector, 2);
         } else if (cvssVersion.startsWith(3)) {
-            cvssPrintable = convertCvssToList(cvssVector, 3);
+            cvssData = convertCvssToList(cvssVector, 3);
         }
 
-        references = cvssResponse["vulnerabilities"][0]["cve"]["references"];
+        references = CVEData["cve"]["references"]["reference_data"];
         exploitAvailable = false;
 
 
@@ -60,22 +56,22 @@ getApiResponse().then(data => {
         document.getElementById("cvssScore").textContent = "CVSS: " + cvssScore;
 
 
-        source = cvssResponse["vulnerabilities"][0]["cve"]["sourceIdentifier"];
-        id = cvssResponse["vulnerabilities"][0]["cve"]["id"];
-        published = cvssResponse["vulnerabilities"][0]["cve"]["published"];
-        lastModified = cvssResponse["vulnerabilities"][0]["cve"]["lastModified"];
+        source = CVEData["cve"]["CVE_data_meta"]["ASSIGNER"];
+        id = CVEData["cve"]["CVE_data_meta"]["ID"];
+        published = CVEData["publishedDate"];
+        lastModified = CVEData["lastModifiedDate"];
 
         document.getElementById("source").textContent = source;
         document.getElementById("published").textContent = convertDate(published);
         document.getElementById("lastModified").textContent = convertDate(lastModified);
 
-        description = cvssResponse["vulnerabilities"][0]["cve"]["descriptions"][0]["value"];
+        description = CVEData["cve"]["description"]["description_data"][0]["value"];
         document.getElementById("description").textContent = description;
 
 
         document.getElementById("references").innerHTML = renderReferences(references);
 
-        cwe = cvssResponse["vulnerabilities"][0]["cve"]["weaknesses"][0]["description"][0]["value"];
+        cwe = CVEData["cve"]["problemtype"]["problemtype_data"][0]["description"][0]["value"];
 
         var metaDesc = document.querySelector('meta[name="description"]');
         var cweName;
@@ -115,13 +111,13 @@ getApiResponse().then(data => {
         document.title = title;
 
 
-        populateCvssTextTable(cvssPrintable);
+        populateCvssTextTable(cvssData);
 
         updateCvssChartJS();
 
         async function getEpssResponse() {
             try {
-                const response = await fetch('/EPSS/' + cve);
+                const response = await fetch('/api/EPSS/' + cve);
                 if (!response.ok) {
                     throw new Error('EPSS API returned an unsuccessful response');
                 }
@@ -135,8 +131,8 @@ getApiResponse().then(data => {
         getEpssResponse().then(epssData => {
             epssResponse = epssData;
             try {
-                if (epssResponse["status"] == "OK" && epssResponse["data"].length > 0) {
-                    epssScore = epssResponse["data"][0].epss * 100;
+                if (epssResponse["cve"] == cve) {
+                    epssScore = epssResponse["epss"];
                     document.getElementById("epssScore").textContent = "EPSS: " + epssScore;
                 } else {
                     document.getElementById("epssScore").textContent = "EPSS: N/A";
@@ -304,44 +300,44 @@ function getNextPrevCVE(currentCVE, direction) {
 
 function updateCvssChartJS() {
     if (cvssVersion.startsWith(2)) {
-        if (cvssPrintable[3][1] == "None")
+        if (cvssData[3][1] == "None")
             confidentialityScore = 3;
-        else if (cvssPrintable[3][1] == "Partial")
+        else if (cvssData[3][1] == "Partial")
             confidentialityScore = 6;
         else
             confidentialityScore = 9;
 
-        if (cvssPrintable[4][1] == "None")
+        if (cvssData[4][1] == "None")
             integrityScore = 3;
-        else if (cvssPrintable[4][1] == "Partial")
+        else if (cvssData[4][1] == "Partial")
             integrityScore = 6;
         else
             integrityScore = 9;
 
-        if (cvssPrintable[5][1] == "None")
+        if (cvssData[5][1] == "None")
             availabilityScore = 3;
-        else if (cvssPrintable[5][1] == "Partial")
+        else if (cvssData[5][1] == "Partial")
             availabilityScore = 6;
         else
             availabilityScore = 9;
     } else if (cvssVersion.startsWith(3)) {
-        if (cvssPrintable[5][1] == "None")
+        if (cvssData[5][1] == "None")
             confidentialityScore = 3;
-        else if (cvssPrintable[5][1] == "Low")
+        else if (cvssData[5][1] == "Low")
             confidentialityScore = 6;
         else
             confidentialityScore = 9;
 
-        if (cvssPrintable[6][1] == "None")
+        if (cvssData[6][1] == "None")
             integrityScore = 3;
-        else if (cvssPrintable[6][1] == "Low")
+        else if (cvssData[6][1] == "Low")
             integrityScore = 6;
         else
             integrityScore = 9;
 
-        if (cvssPrintable[7][1] == "None")
+        if (cvssData[7][1] == "None")
             availabilityScore = 3;
-        else if (cvssPrintable[7][1] == "Low")
+        else if (cvssData[7][1] == "Low")
             availabilityScore = 6;
         else
             availabilityScore = 9;
